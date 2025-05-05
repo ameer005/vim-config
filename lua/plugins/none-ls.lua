@@ -1,12 +1,27 @@
 return {
 
   "nvimtools/none-ls.nvim",
+  dependencies = {
+    "nvimtools/none-ls-extras.nvim",
+  },
   config = function()
-    local null_ls = require("null-ls")
-    null_ls.setup({
+    local none_ls = require("null-ls")
+
+    local formatting = none_ls.builtins.formatting
+    local diagnostics = none_ls.builtins.diagnostics
+    local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+
+    none_ls.setup({
       sources = {
-        null_ls.builtins.formatting.stylua,
-        null_ls.builtins.formatting.prettier,
+        require("none-ls.diagnostics.eslint_d").with({
+          condition = function(utils)
+            return utils.root_has_file({ ".eslintrc.js", ".eslintrc.json", ".eslintrc.cjs" })
+          end,
+        }),
+        require("none-ls.code_actions.eslint_d"),
+        formatting.stylua,
+        formatting.prettier,
+
       },
       on_attach = function(client, bufnr)
         if client.supports_method("textDocument/formatting") then
@@ -28,5 +43,11 @@ return {
 
 
     vim.keymap.set('n', '<leader>cf', vim.lsp.buf.format, {})
+    vim.diagnostic.config({
+      virtual_text = true,
+      signs = true,
+      underline = true,
+      update_in_insert = true,
+    })
   end
 }
