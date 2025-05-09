@@ -11,6 +11,10 @@ return {
   config = function()
     require("neo-tree").setup({
       filesystem = {
+        follow_current_file = {
+          enabled = true, -- This allows Neo-tree to follow the currently active buffer
+        },
+        hijack_netrw_behavior = "open_current",
         filtered_items = {
           visible = true,          -- Allow toggling hidden files
           hide_dotfiles = false,   -- Show dotfiles like .env, .gitignore
@@ -18,7 +22,7 @@ return {
         },
       },
     })
-    vim.keymap.set('n', '<C-e>', ':Neotree toggle left<CR>', {})
+    vim.keymap.set('n', '<C-e>', ':Neotree toggle right<CR>', {})
     vim.cmd([[
       highlight NeoTreeNormal guibg=NONE ctermbg=NONE
       highlight NeoTreeNormalNC guibg=NONE ctermbg=NONE
