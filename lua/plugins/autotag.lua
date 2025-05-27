@@ -1,6 +1,6 @@
 return {
   "windwp/nvim-ts-autotag",
-  event = "VeryLazy",
+  event = "InsertEnter",
   config = function()
     require("nvim-ts-autotag").setup()
   end,

@@ -10,7 +10,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "ts_ls", "biome" }
+        ensure_installed = { "lua_ls", "ts_ls", "biome", "gopls" }
       })
     end
   },
@@ -28,6 +28,9 @@ return {
         capabilities = capabilities,
       })
       lspconfig.tailwindcss.setup({
+        capabilities = capabilities,
+      })
+      lspconfig.gopls.setup({
         capabilities = capabilities,
       })
 

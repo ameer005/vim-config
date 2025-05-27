@@ -22,6 +22,14 @@ return {
         formatting.stylua,
         formatting.prettier,
 
+        -- Go sources
+        formatting.gofmt,     -- Basic Go formatting
+        formatting.goimports, -- Formatting + optimizing imports
+        diagnostics.golangci_lint.with({
+          condition = function(utils)
+            return utils.root_has_file({ ".golangci.yml", ".golangci.yaml", ".golangci.toml", ".golangci.json" })
+          end,
+        }),
       },
       on_attach = function(client, bufnr)
         if client.supports_method("textDocument/formatting") then
