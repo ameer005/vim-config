@@ -30,6 +30,9 @@ return {
             return utils.root_has_file({ ".golangci.yml", ".golangci.yaml", ".golangci.toml", ".golangci.json" })
           end,
         }),
+
+        formatting.prismaFmt,
+
       },
       on_attach = function(client, bufnr)
         if client.supports_method("textDocument/formatting") then
