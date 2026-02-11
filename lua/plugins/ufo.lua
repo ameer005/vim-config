@@ -12,19 +12,18 @@ return {
     vim.o.foldenable = true
 
     require("ufo").setup({
-      provider_selector = function(bufnr, filetype, buftype)
-        -- never fold special buffers
+      provider_selector = function(_, filetype, buftype)
+        -- disable folding for special buffers
         if buftype ~= "" then
           return nil
         end
 
-        -- never fold plain text
-        if filetype == "txt" then
-          return nil
-        end
-
-        -- optional: exclude other non-code buffers
-        if filetype == "markdown"
+        -- explicitly disable for filetypes that WILL break
+        if
+            filetype == "txt"
+            or filetype == "asm"
+            or filetype == "nasm"
+            or filetype == "markdown"
             or filetype == "help"
             or filetype == "neo-tree"
             or filetype == "NvimTree"
@@ -33,10 +32,10 @@ return {
           return nil
         end
 
+        -- safe default
         return { "treesitter", "lsp" }
       end,
     })
-
 
     vim.keymap.set("n", "zR", require("ufo").openAllFolds)
     vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
